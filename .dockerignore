@@ -1,4 +1,6 @@
 .gitignore
 coverage/
 node_modules/
+testing/
+sonar-project.properties
 package-lock.json
