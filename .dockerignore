@@ -1,4 +1,5 @@
 .gitignore
+.env
 coverage/
 node_modules/
 testing/
