@@ -29,9 +29,11 @@ pipeline {
                     -Dsonar.login=sqp_7cc14798a06b72d5bf41ed60332c81238ef17910'''
             }   
         }
-        stage('Build Image') {
+        stage('Build & Push Image') {
             steps {
                 sh '''docker build -t ${IMAGE}:${BUILD_NUMBER} .
+                    docker tag ${IMAGE}:${BUILD_NUMBER} ${REGISTRY}/${IMAGE}:${BUILD_NUMBER}
+                    docker push ${REGISTRY}/${IMAGE}:${BUILD_NUMBER}
                 '''
             }   
         }
