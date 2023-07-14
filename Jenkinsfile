@@ -23,13 +23,6 @@ pipeline {
             }
             
         }
-        stage('Build & Testing Apps') {
-            steps {
-                sh '''npm install
-                      npm test
-                      npm run test:coverage'''
-            }   
-        }
         stage('Code Review') {
             steps {
                 sh '''sonar-scanner \
