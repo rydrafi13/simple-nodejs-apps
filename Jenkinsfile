@@ -6,6 +6,14 @@ pipeline {
 
         }
     }
+    environment {
+        DB_NAME = 'training'
+        DB_HOST = '10.23.1.1'
+        DB_USER = 'peserta'
+        DB_PASS = 'password'
+        APP_PORT = '3000'
+
+    }
     stages {
         stage('Build & Testing Apps') {
             steps {
