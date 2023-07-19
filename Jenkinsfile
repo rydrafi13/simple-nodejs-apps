@@ -18,23 +18,15 @@ pipeline {
             }
             
         }
-
         stage('Run Tests') {
             parallel {
-                stage('Unit Testing') {
+                stage('Unit Testing & Coverage') {
                     steps {
-                        sh 'npm test'
+                        sh '''npm test
+                            npm run test:coverage'''
                     }
                     
-                }
-
-                stage('Testing Coverage') {
-                    steps {
-                        sh 'npm run test:coverage'
-                    }
-                    
-                }
-                
+                }                
                 stage('Code Review') {
                     steps {
                         sh '''sonar-scanner \
@@ -46,11 +38,16 @@ pipeline {
                 }
             }
         }
-        
-        stage('Build & Push Image') {
+
+        stage('Build Image') {
             steps {
-                sh '''docker build -t ${IMAGE}:${BUILD_NUMBER} .
-                    docker tag ${IMAGE}:${BUILD_NUMBER} ${REGISTRY}/${IMAGE}:${BUILD_NUMBER}
+                sh 'docker build -t ${IMAGE}:${BUILD_NUMBER} .'
+            }   
+        }
+
+        stage('Tag & Push Image') {
+            steps {
+                sh '''docker tag ${IMAGE}:${BUILD_NUMBER} ${REGISTRY}/${IMAGE}:${BUILD_NUMBER}
                     docker push ${REGISTRY}/${IMAGE}:${BUILD_NUMBER}
                 '''
             }   
